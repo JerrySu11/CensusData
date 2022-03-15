@@ -144,7 +144,7 @@ Found in `census_features.p` or `census_features.csv`, the features contain 13 c
 After all the column values are processed as described above, all values are divided by the maximum value of their respective column, which normalizes the values to be between 0 and 1. Therefore, the actual values stored in the data files **DO NOT** correspond directly to the data dictionary above. 
  
  # Label
-Found in `census_labels.p` or `census_labels.csv`, the labels contain 1 column of value that represents whether a person's total income is at least \$50,000. The value is 1 for records with total income equal to or over \$50,000 (obtained by filtering records through PINCP>=50,000, where PINCP is the total person's income). The value is 0 for records the remaining records.
+Found in `census_labels.p` or `census_labels.csv`, the labels contain 1 column of value that represents whether a person's total income is at least \$90,000. The value is 1 for records with total income equal to or over \$90,000 (obtained by filtering records through PINCP>=90,000, where PINCP is the total person's income). The value is 0 for records the remaining records.
 
 # Steps to Reproduce Data
 The code used to produce the dataset can be found in the `EvaluatingDPML` folder, a submodule cloned from https://github.com/bargavj/EvaluatingDPML. Below are the steps to reproduce the dataset.
