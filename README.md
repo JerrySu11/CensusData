@@ -154,3 +154,15 @@ The code used to produce the dataset can be found in the `EvaluatingDPML` folder
 4. To run a benchmark test of training NN models without performing attacks, go to `evaluating_dpml` folder and run `python3 main.py census --save_data=1` to prepare the data, then run `python3 main.py census --target_model='nn' --target_l2_ratio=1e-4 --benchmark=1`. 
 5. To reproduce benchmark results of membership inference attacks, go to `improved_mi` folder and run `./run_experiments.sh census` (Note that this step may take over a day to finish). Then, run `python3 interpret_results.py census --gamma=0.5 --plot='benchmark'` to obtain the results. To explore benchmark results with other test-to-train ratios, try changing the `--gamma` argument value to 0.1, 1, 2, 10. 
 
+# Useful Tools for Experiment Automation
+We provide functionalities to make it easy to create and run experiments on custom slices of the census data.  
+
+To create census data files with custom thresholds for high-income label, use `--high_income_threshold` flag to pass in the threshold value. For example, to get data records that use $80,000 as the threshold, run `python3 preprocess_dataset.py census --preprocess=1 --high_income_threshold=80000`.  
+
+To create census data files with custom constraints, use `--constraints` flag to pass in a list of constraints in the format of `<feature column><comparison operator><value>`, separated by `,`. For example, to get data records that have college degrees or higher education and are from the state VA, run `python3 preprocess_dataset.py census --preprocess=1 --constraints='SCHL>=20,ST=46'`. Supported operators include: `=`,`!=`,`>`,`<`,`>=`,`<=`. No space is allowed in the passed in parameter.  
+
+To create census data files with custom features, use `--x` flag to pass in a list of features, separated by `,`. For example, to get data records that use `SCHL`, `MAR`, `AGEP` and `COW` as features, run `python3 preprocess_dataset.py census --preprocess=1 --x='SCHL,MAR,AGEP,COW'`. No space is allowed in the passed in parameter.  
+
+To conveniently manage different custom census data files with data ids, use the `--add_data_id` flag. Data files will have name `<file_name>_<data_id>.<file extension>`. A text document that contains the custom high-income threshold value, constraints, and features will be created with name `census_info_<data_id>.txt`.
+
+To demonstrate usage of the above features for experiment automation, we provide a full sample experiment script named `run_experiments_sample.sh` in the folder `improved_mi`, where a membership inference experiment is reproduced on a set of custom constraints and features, running from creating and setting up a python environment to preprocessing the dataset, and eventually to producing relevant plots. Within the sample script, a data id is created for each custom condition and is managed internally. To run the script, run `run_experiments_sample.sh census`. To play around with custom high-income thresholds, constraints and features, modify the `HIGH_INCOME_THRESHOLD`, `CONSTRAINT`, and `XS` variables in the script.
